@@ -5,8 +5,6 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
@@ -20,7 +18,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler">
           <stringProp name="BeanShellSampler.query">var link;
 vars.put(&quot;link&quot;,&quot;api.practical.me&quot;)
 </stringProp>
@@ -52,8 +50,8 @@ vars.put(&quot;link&quot;,&quot;api.practical.me&quot;)
     &quot;average_snacks_day&quot;: &quot;5&quot;,&#xd;
     &quot;meals_deliver_per_day&quot;: &quot;2&quot;,&#xd;
     &quot;snacks_deliver_per_day&quot;: &quot;0&quot;,&#xd;
-    &quot;meal_days_per_week&quot;: &quot;5&quot;,&#xd;
-    &quot;meal_plan_require_weeks&quot;: &quot;1&quot;,&#xd;
+    &quot;meal_days_per_week&quot;: &quot;7&quot;,&#xd;
+    &quot;meal_plan_require_weeks&quot;: &quot;4&quot;,&#xd;
     &quot;quiz_type&quot;: &quot;quiz_a&quot;,&#xd;
     &quot;promo_code&quot;: null&#xd;
 }</stringProp>
@@ -190,6 +188,67 @@ vars.put(&quot;link&quot;,&quot;api.practical.me&quot;)
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-Type</stringProp>
                 <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor">
+            <stringProp name="JSONPostProcessor.referenceNames">userid; authtoken</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$..user_id; $..auth_token</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers">1; 1</stringProp>
+            <stringProp name="JSONPostProcessor.defaultValues">noidfound; notokenfound</stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Profile">
+          <stringProp name="HTTPSampler.domain">api.practical.me</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/dev/api/user/profile</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;days_food_delivery&quot;: [&#xd;
+        &quot;Mon&quot;,&#xd;
+        &quot;Tues&quot;,&#xd;
+        &quot;Weds&quot;,&#xd;
+        &quot;Thur&quot;,&#xd;
+        &quot;Fri&quot;,&#xd;
+        &quot;Sat&quot;,&#xd;
+        &quot;Sun&quot;&#xd;
+    ],&#xd;
+    &quot;vegeterian&quot;: &quot;Yes I am&quot;,&#xd;
+    &quot;exclude_breakfast&quot;: 0,&#xd;
+    &quot;meal_plan_pause_date&quot;: [],&#xd;
+    &quot;meal_plan_start_date&quot;: &quot;11.07.2025&quot;,&#xd;
+    &quot;meal_plan_end_date&quot;: &quot;07.08.2025&quot;,&#xd;
+    &quot;allergy&quot;: [&#xd;
+        &quot;I have no allergies&quot;&#xd;
+    ],&#xd;
+    &quot;food_dislikes&quot;: [&#xd;
+        &quot;I have no dislikes&quot;&#xd;
+    ]&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${authtoken}</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
